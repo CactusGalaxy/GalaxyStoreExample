@@ -74,3 +74,23 @@ and Vite dev server for frontend assets
 ```bash
 npm run dev
 ```
+
+## Edit package
+
+```
+Projects
+|-FilamentAstrotomic
+|-GalaxyShop
+```
+
+```json
+"repositories": [
+    {
+        "type": "path",
+        "url": "../FilamentAstrotomic",
+        "options": {
+            "symlink": true
+        }
+    }
+],
+```

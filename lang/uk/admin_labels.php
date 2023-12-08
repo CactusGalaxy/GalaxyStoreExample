@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'tabs' => [
+        'general' => 'Загальне',
+    ],
+
     'attributes' => [
         'field' => 'Поле',
         'id' => 'ID',
@@ -45,9 +49,18 @@ return [
         'prices' => 'Ціни',
         'path' => 'Файл',
         'keywords' => 'Ключові слова',
+        'meta_fields' => 'Мета поля',
         'meta_title' => 'Мета заголовок',
         'meta_name' => 'Мета назва',
         'meta_description' => 'Мета опис',
         'meta_keywords' => 'Мета ключові слова',
+    ],
+
+    'product_attributes' => [
+        'display_types' => [
+            'text' => 'Текст',
+            'color' => 'Колір',
+            'size' => 'Розмір',
+        ],
     ],
 ];

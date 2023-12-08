@@ -2,9 +2,12 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
+use App\Http\Middleware\Authenticate;
+use CactusGalaxy\FilamentAstrotomic\FilamentAstrotomicTranslatablePlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -16,6 +19,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -24,11 +28,26 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            // ->spa()
             ->id('admin')
             ->path('admin')
             ->login()
+            ->plugins([
+                FilamentAstrotomicTranslatablePlugin::make(),
+            ])
             ->colors([
                 'primary' => Color::Amber,
+            ])
+            ->navigationItems([
+                NavigationItem::make('Відкрити сайт')
+                    ->icon('bi-globe')
+                    ->url(fn () => route('web.home'), shouldOpenInNewTab: true),
+            ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label(fn () => __('filament/navigation.groups.shop')),
+                NavigationGroup::make()
+                    ->label(fn () => __('filament/navigation.groups.content')),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -40,6 +59,7 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+            ->sidebarCollapsibleOnDesktop()
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

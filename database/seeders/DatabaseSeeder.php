@@ -19,5 +19,10 @@ class DatabaseSeeder extends Seeder
             'password' => 'admin',
             'is_admin' => true,
         ]);
+
+        $this->call([
+            BannerSeeder::class,
+            ShopSeeder::class,
+        ]);
     }
 }
