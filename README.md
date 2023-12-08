@@ -7,6 +7,8 @@ Just simple Laravel app with some examples.
 
 and possibly more in the future 😉
 
+![product-admin.png](/resources/art/product-admin.png)
+
 ## Requirements
 
 This project requires PHP 8.1 and uses [Laravel 10](https://laravel.com/docs/10.x/releases)
