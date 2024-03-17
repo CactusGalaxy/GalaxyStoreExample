@@ -16,6 +16,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\Conversions\Manipulations;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @method ProductTranslation translate(?string $locale = null, bool $withFallback = false)
@@ -28,6 +32,7 @@ class Product extends Model implements Visible
     use WithTranslationsTrait;
     use VisibleTrait;
     use HasMediaAttributes;
+    use InteractsWithMedia;
 
     public $translationModel = ProductTranslation::class;
 
@@ -55,6 +60,14 @@ class Product extends Model implements Visible
         'status' => 'boolean',
         'sliders' => 'array',
     ];
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Fit::Crop, 300, 300)
+            ->nonQueued();
+    }
 
     public function category(): BelongsTo
     {

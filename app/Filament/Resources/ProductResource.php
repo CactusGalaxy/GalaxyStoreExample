@@ -19,6 +19,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -126,6 +127,9 @@ class ProductResource extends Resource
                 Section::make('product_card')
                     ->heading('Катка товару')
                     ->schema([
+                        SpatieMediaLibraryFileUpload::make('image')
+                        ->responsiveImages(),
+
 
                         Grid::make()->schema([
                             TextInput::make('sku')
@@ -168,13 +172,15 @@ class ProductResource extends Resource
                                     ->defaultItems(2)
                                     ->reorderableWithButtons()
                                     ->schema([
-                                        FileUpload::make('image')
-                                            ->hiddenLabel()
-                                            ->required()
-                                            ->downloadable()
-                                            ->disk('public')
-                                            ->acceptedFileTypes(['image/*'])
-                                            ->directory('products/images'),
+                                        SpatieMediaLibraryFileUpload::make('slider')
+                                            ->collection('slider'),
+//                                        FileUpload::make('image')
+//                                            ->hiddenLabel()
+//                                            ->required()
+//                                            ->downloadable()
+//                                            ->disk('public')
+//                                            ->acceptedFileTypes(['image/*'])
+//                                            ->directory('products/images'),
                                     ]),
                             ]),
                         Tabs\Tab::make('attributes')
