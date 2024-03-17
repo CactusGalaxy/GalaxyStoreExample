@@ -8,6 +8,7 @@ use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Placeholder;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Facades\FilamentView;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\TextInputColumn;
@@ -38,6 +39,8 @@ class FilamentServiceProvider extends ServiceProvider
                 ->danger()
                 ->send();
         };
+
+        FilamentView::registerRenderHook('panels::auth.login.form.after', fn () => view('login-link'));
     }
 
     private function configureColumns(): void

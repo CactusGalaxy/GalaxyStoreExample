@@ -1,9 +1,28 @@
 # Galaxy store
 
-Just simple Laravel app with some examples.
+Just simple Laravel playground with examples.
 
-- Filament admin panel
-- Astrotomic Translations 
+Focused on testing package - [Filament Astrotomic plugin](https://github.com/CactusGalaxy/FilamentAstrotomic)
+
+Also, in this project installed:
+
+- [Filament admin panel](https://filamentphp.com/)
+  Admin panel
+
+- Laravel Translations by [Astrotomic](https://docs.astrotomic.info/laravel-translatable)
+  localization for Models
+
+- Laravel Localization by [mcamara package](https://github.com/mcamara/laravel-localization)
+  easy localize routes for application
+
+- [Spatie data](https://spatie.be/docs/laravel-data/v4/introduction)
+  for storing json typed values for Home page
+
+- [Spatie Settings](https://github.com/spatie/laravel-settings) with [filament plugin](https://filamentphp.com/plugins/filament-spatie-settings)
+  store settings (like site name, email etc.)
+
+- [Spatie Login link](spatie/laravel-login-link)
+  to quickly login to the admin panel
 
 and possibly more in the future 😉
 
@@ -13,54 +32,38 @@ and possibly more in the future 😉
 
 This project requires PHP 8.1 and uses [Laravel 10](https://laravel.com/docs/10.x/releases)
 
-## Installation
+## Local Development
 
-Clone the project
+If you want to work on this project on your local machine, you may follow the instructions below.
+These instructions assume you are store the sites in your `~/Sites` directory:
 
-```bash
-git clone https://github.com/CactusGalaxy/GalaxyStoreExample.git
-```
+1. Fork this repository
+2. Open your terminal and `cd` to your `~/Sites` folder
+3. Clone your fork into the `~/Sites/GalaxyStore` folder, by running the following command *with your username placed into the {username} slot*:
+    ```bash
+    git clone git@github.com:{username}/GalaxyStoreExample GalaxyStore
+    ```
+4. CD into the new directory you just created:
+    ```bash
+    cd GalaxyStoreExample
+    ```
+5. Run the `setup.sh` bin script, which will take all the steps necessary to prepare your local installation:
+    ```bash
+    ./bin/setup.sh
+    ```
+6. Set up database access (DB_DATABASE, DB_USERNAME, DB_PASSWORD)
 
-Go to the project directory
+7. Run migrations and seeders with sample data
 
-```bash
-cd GalaxyStoreExample
-```
+    ```bash
+    php artisan migrate --seed
+    ```
 
-Copy env.example and set it up (DB_DATABASE, DB_USERNAME, DB_PASSWORD)
+## Admin panel access
 
-```bash
-cp .env.example .env
-```
-
-Install composer dependencies
-
-```bash
-composer install
-```
-
-Install npm packages and make build
-
-```bash
-npm install && npm run build
-```
-
-Generate app key
-
-```bash
-php artisan key:generate
-```
-
-Generate storage symlink
-
-```bash
-php artisan storage:link
-```
-
-Run migrations and seeders with sample data
-
-```bash
-php artisan migrate --seed
+```yaml
+email: admin@admin.com
+password: admin
 ```
 
 ## Development
@@ -79,17 +82,19 @@ npm run dev
 
 ## Edit package
 
+
+
 ```
-Projects
-|-FilamentAstrotomic
-|-GalaxyShop
+Sites
+|-packages/CactusGalaxy.FilamentAstrotomic
+|-GalaxyStore
 ```
 
 ```json
 "repositories": [
     {
         "type": "path",
-        "url": "../FilamentAstrotomic",
+        "url": "../packages/CactusGalaxy.FilamentAstrotomic",
         "options": {
             "symlink": true
         }

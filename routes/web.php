@@ -3,9 +3,19 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['as' => 'web.'], function () {
-    Route::get('/', function () {
-        return view('welcome');
+Route::group([
+    'as' => 'web.',
+    'middleware' => [
+        'localeSessionRedirect',
+        'localizationRedirect',
+    ],
+    'prefix' => LaravelLocalization::setLocale(),
+], function () {
+    Route::get('/', function (\App\Settings\SiteSettings $siteSettings) {
+        return view('welcome', [
+            'homePageInfo' => \App\Models\HomePageInfo::getFirstRecord(),
+            'siteSettings' => $siteSettings,
+        ]);
     })->name('home');
 });
 
