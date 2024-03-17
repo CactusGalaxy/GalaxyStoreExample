@@ -69,6 +69,7 @@ class ProductResource extends Resource
                             ->unique(ignoreRecord: true)
                             ->required()
                             ->readOnly()
+                            ->helperText('Генерується автоматично при зміні назви')
                             ->maxLength(255),
 
                         TranslatableTabs::make('Heading')
@@ -86,6 +87,7 @@ class ProductResource extends Resource
                                 RichEditor::make($tab->makeName('description')),
 
                                 Section::make(__('admin_labels.attributes.meta_fields'))
+                                    ->hidden()
                                     ->schema([
                                         TextInput::make($tab->makeName('meta_title'))
                                             ->maxLength(255),
