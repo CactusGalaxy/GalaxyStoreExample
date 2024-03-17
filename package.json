@@ -1,4 +1,5 @@
 {
+    "name": "galaxy-store",
     "private": true,
     "type": "module",
     "scripts": {
