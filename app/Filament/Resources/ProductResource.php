@@ -126,7 +126,6 @@ class ProductResource extends Resource
                 Section::make('product_card')
                     ->heading('Катка товару')
                     ->schema([
-
                         Grid::make()->schema([
                             TextInput::make('sku')
                                 ->numeric()
