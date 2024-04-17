@@ -9,22 +9,13 @@ use App\Models\ProductAttribute;
 use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
 use CactusGalaxy\FilamentAstrotomic\Resources\Concerns\ResourceTranslatable;
 use CactusGalaxy\FilamentAstrotomic\TranslatableTab;
+use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -54,67 +45,67 @@ class ProductAttributeResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Grid::make(3)->schema([
-                Grid::make(1)
+            Forms\Components\Grid::make(3)->schema([
+                Forms\Components\Grid::make(1)
                     ->schema([
                         TranslatableTabs::make('Heading')
                             ->localeTabSchema(fn (TranslatableTab $tab) => [
-                                TextInput::make($tab->makeName('name'))
+                                Forms\Components\TextInput::make($tab->makeName('name'))
                                     ->required()
                                     ->live(onBlur: true)
                                     ->maxLength(255)
-                                    ->afterStateUpdated(function (string $operation, $state, Set $set) use ($tab) {
+                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) use ($tab) {
                                         return $operation === 'create' && $tab->isMainLocale()
                                             ? $set('key', Str::slug($state))
                                             : null;
                                     }),
                             ]),
 
-                        Section::make()->schema([
-                            Select::make('display_type_in_card')
+                        Forms\Components\Section::make()->schema([
+                            Forms\Components\Select::make('display_type_in_card')
                                 ->required()
                                 ->live(onBlur: true)
                                 ->options(DisplayType::getOptions()),
 
-                            TextInput::make('key')
+                            Forms\Components\TextInput::make('key')
                                 ->required()
                                 ->unique(ignoreRecord: true),
                         ])->hiddenOn('create'),
                     ])
                     ->columnSpan(['lg' => 2]),
 
-                Grid::make(1)->schema([
-                    Section::make()->schema([
-                        TextInput::make('position')
+                Forms\Components\Grid::make(1)->schema([
+                    Forms\Components\Section::make()->schema([
+                        Forms\Components\TextInput::make('position')
                             ->visibleOn('edit')
                             ->default(self::getModel()::max('position') + 1)
                             ->numeric(),
 
-                        Toggle::make('status')
+                        Forms\Components\Toggle::make('status')
                             ->default(true),
                     ]),
 
-                    Section::make()->schema([
-                        Placeholder::make('created_at')
+                    Forms\Components\Section::make()->schema([
+                        Forms\Components\Placeholder::make('created_at')
                             ->content(fn (?Model $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
-                        Placeholder::make('updated_at')
+                        Forms\Components\Placeholder::make('updated_at')
                             ->content(fn (?Model $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                     ]),
                 ])->columnSpan(['lg' => 1]),
             ]),
 
-            Section::make(__('Значення'))
+            Forms\Components\Section::make(__('Значення'))
                 ->collapsible()
                 ->collapsed(fn (string $operation) => $operation !== 'create')
                 ->schema([
-                    Repeater::make('attributeValues')
+                    Forms\Components\Repeater::make('attributeValues')
                         ->hiddenLabel()
                         ->addActionLabel('Додати новий атрибут')
                         ->relationship()
                         ->collapsed()
                         ->collapsible()
-                        ->itemLabel(function (array $state, Get $get) {
+                        ->itemLabel(function (array $state, Forms\Get $get) {
                             $name = $state['uk']['name'] ?? null;
                             $value = $state['uk']['value'] ?? null;
 
@@ -131,9 +122,9 @@ class ProductAttributeResource extends Resource
                         ->deleteAction(fn (Action $action) => $action->requiresConfirmation())
                         ->schema([
                             TranslatableTabs::make()
-                                ->localeTabSchema(fn (TranslatableTab $tab) => function (Get $get) use ($tab) {
+                                ->localeTabSchema(fn (TranslatableTab $tab) => function (Forms\Get $get) use ($tab) {
                                     $inputs = [
-                                        TextInput::make($tab->makeName('name'))
+                                        Forms\Components\TextInput::make($tab->makeName('name'))
                                             ->columnSpan(1)
                                             ->live(onBlur: true)
                                             ->required()
@@ -143,14 +134,14 @@ class ProductAttributeResource extends Resource
                                     $displayType = $get('../../display_type_in_card');
                                     // if parent record is color
                                     if ($displayType === 'color') {
-                                        $inputs[] = ColorPicker::make($tab->makeName('value'))
+                                        $inputs[] = Forms\Components\ColorPicker::make($tab->makeName('value'))
                                             ->columnSpan(1)
                                             ->label(__('admin_labels.product_attributes.display_types.color'))
                                             ->required();
                                     }
 
                                     return [
-                                        Grid::make()->columns(2)->schema($inputs),
+                                        Forms\Components\Grid::make()->columns(2)->schema($inputs),
                                     ];
                                 }),
                         ]),
@@ -163,9 +154,9 @@ class ProductAttributeResource extends Resource
         return $table
             ->recordAction('edit')
             ->columns([
-                TextColumn::make('translation.name'),
+                Tables\Columns\TextColumn::make('translation.name'),
             ])->actions(actions: [
-                // todo: do not use slide over with multiple translatable tabs (value repeater)
+                // todo: do not use slide over with multiple translatable Forms\Components\tabs (value repeater)
                 EditAction::make()/*
                     ->slideOver()
                     ->stickyModalHeader()*/,

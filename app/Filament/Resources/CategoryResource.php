@@ -8,23 +8,12 @@ use App\Models\Category;
 use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
 use CactusGalaxy\FilamentAstrotomic\Resources\Concerns\ResourceTranslatable;
 use CactusGalaxy\FilamentAstrotomic\TranslatableTab;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\TextInputColumn;
-use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -54,10 +43,10 @@ class CategoryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Grid::make(3)->schema([
-                Grid::make(1)
+            Forms\Components\Grid::make(3)->schema([
+                Forms\Components\Grid::make(1)
                     ->schema([
-                        TextInput::make('slug')
+                        Forms\Components\TextInput::make('slug')
                             ->unique(ignoreRecord: true)
                             ->required()
                             ->readOnly()
@@ -65,39 +54,39 @@ class CategoryResource extends Resource
 
                         TranslatableTabs::make('Heading')
                             ->localeTabSchema(fn (TranslatableTab $tab) => [
-                                TextInput::make($tab->makeName('title'))
+                                Forms\Components\TextInput::make($tab->makeName('title'))
                                     ->required()
                                     ->live(onBlur: true)
                                     ->maxLength(255)
-                                    ->afterStateUpdated(function (Set $set, Get $get, $state) use ($tab) {
+                                    ->afterStateUpdated(function (Forms\Forms\Set $set, Forms\Forms\Get $get, $state) use ($tab) {
                                         if ($tab->isMainLocale()) {
                                             $set('slug', Str::slug($state));
                                         }
                                     }),
 
-                                Section::make(__('admin_labels.attributes.meta_fields'))
+                                Forms\Components\Section::make(__('admin_labels.attributes.meta_fields'))
                                     ->schema([
-                                        TextInput::make($tab->makeName('meta_title'))
+                                        Forms\Components\TextInput::make($tab->makeName('meta_title'))
                                             ->maxLength(255),
-                                        TextInput::make($tab->makeName('meta_keywords'))
+                                        Forms\Components\TextInput::make($tab->makeName('meta_keywords'))
                                             ->maxLength(255),
-                                        RichEditor::make($tab->makeName('meta_description')),
+                                        Forms\Components\RichEditor::make($tab->makeName('meta_description')),
                                     ]),
                             ]),
                     ])
                     ->columnSpan(['lg' => 2]),
 
-                Grid::make(1)->schema([
-                    Section::make(__('admin_labels.tabs.general'))->schema([
-                        TextInput::make('position')
+                Forms\Components\Grid::make(1)->schema([
+                    Forms\Components\Section::make(__('admin_labels.tabs.general'))->schema([
+                        Forms\Components\TextInput::make('position')
                             ->required()
                             ->default(self::getModel()::max('position') + 1)
                             ->numeric(),
 
-                        Toggle::make('status')
+                        Forms\Components\Toggle::make('status')
                             ->default(true),
 
-                        FileUpload::make("image")
+                        Forms\Components\FileUpload::make("image")
                             ->hiddenLabel()
                             ->columnSpan(1)
                             ->disk('public')
@@ -113,11 +102,11 @@ class CategoryResource extends Resource
                             ->panelLayout('integrated'),
                     ]),
 
-                    Section::make()->schema([
-                        Placeholder::make('created_at')
+                    Forms\Components\Section::make()->schema([
+                        Forms\Components\Placeholder::make('created_at')
                             ->content(fn (?Model $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
-                        Placeholder::make('updated_at')
+                        Forms\Components\Placeholder::make('updated_at')
                             ->content(fn (?Model $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                     ]),
                 ])->columnSpan(['lg' => 1]),
@@ -131,18 +120,18 @@ class CategoryResource extends Resource
             ->defaultSort('id', 'desc')
             ->reorderable('position')
             ->columns([
-                TextColumn::make('id')
+                Tables\Columns\TextColumn::make('id')
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('translation.title'),
+                Tables\Columns\TextColumn::make('translation.title'),
 
-                ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image'),
 
-                TextInputColumn::make('position')
+                Tables\Columns\TextInputColumn::make('position')
                     ->toggleable(),
 
-                ToggleColumn::make('status')
+                Tables\Columns\ToggleColumn::make('status')
                     ->toggleable(),
             ])->actions([
                 EditAction::make(),

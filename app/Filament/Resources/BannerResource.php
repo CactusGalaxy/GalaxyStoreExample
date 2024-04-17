@@ -10,21 +10,12 @@ use App\Models\Banner;
 use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
 use CactusGalaxy\FilamentAstrotomic\Resources\Concerns\ResourceTranslatable;
 use CactusGalaxy\FilamentAstrotomic\TranslatableTab;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\TextInputColumn;
-use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -54,21 +45,21 @@ class BannerResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Grid::make(3)->schema([
-                Grid::make(1)
+            Forms\Components\Grid::make(3)->schema([
+                Forms\Components\Grid::make(1)
                     ->schema([
                         TranslatableTabs::make('Heading')
                             ->localeTabSchema(fn (TranslatableTab $tab) => [
-                                TextInput::make($tab->makeName('title'))
+                                Forms\Components\TextInput::make($tab->makeName('title'))
                                     ->required()
                                     ->maxLength(255),
 
-                                RichEditor::make($tab->makeName('description'))
+                                Forms\Components\RichEditor::make($tab->makeName('description'))
                                     ->maxLength(500),
                             ]),
 
-                        Section::make(__('admin_labels.attributes.image'))->schema([
-                            FileUpload::make('image')
+                        Forms\Components\Section::make(__('admin_labels.attributes.image'))->schema([
+                            Forms\Components\FileUpload::make('image')
                                 ->required()
                                 ->hiddenLabel()
                                 ->acceptedFileTypes(['image/*'])
@@ -86,22 +77,22 @@ class BannerResource extends Resource
                     ])
                     ->columnSpan(['lg' => 2]),
 
-                Grid::make(1)->schema([
-                    Section::make(__('admin_labels.tabs.general'))->schema([
-                        TextInput::make('position')
+                Forms\Components\Grid::make(1)->schema([
+                    Forms\Components\Section::make(__('admin_labels.tabs.general'))->schema([
+                        Forms\Components\TextInput::make('position')
                             ->visibleOn('edit')
                             ->default(self::getModel()::max('position') + 1)
                             ->numeric(),
 
-                        Toggle::make('status')
+                        Forms\Components\Toggle::make('status')
                             ->default(true),
                     ]),
 
-                    Section::make()->schema([
-                        Placeholder::make('created_at')
+                    Forms\Components\Section::make()->schema([
+                        Forms\Components\Placeholder::make('created_at')
                             ->content(fn (?Model $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
-                        Placeholder::make('updated_at')
+                        Forms\Components\Placeholder::make('updated_at')
                             ->content(fn (?Model $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                     ]),
                 ])->columnSpan(['lg' => 1]),
@@ -115,13 +106,13 @@ class BannerResource extends Resource
             ->reorderable('position')
             ->defaultSort('position')
             ->columns([
-                TextColumn::make('translation.title'),
+                Tables\Columns\TextColumn::make('translation.title'),
 
-                ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image'),
 
-                TextInputColumn::make('position'),
+                Tables\Columns\TextInputColumn::make('position'),
 
-                ToggleColumn::make('status'),
+                Tables\Columns\ToggleColumn::make('status'),
             ])->actions([
                 EditAction::make(),
                 DeleteAction::make(),

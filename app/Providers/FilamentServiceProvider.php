@@ -4,15 +4,11 @@ namespace App\Providers;
 
 use App\Models\Traits\WithTranslationsTrait;
 use Astrotomic\Translatable\Translatable;
-use Filament\Forms\Components\Field;
-use Filament\Forms\Components\Placeholder;
+use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Facades\FilamentView;
-use Filament\Tables\Columns\Column;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\TextInputColumn;
-use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\ServiceProvider;
@@ -45,14 +41,14 @@ class FilamentServiceProvider extends ServiceProvider
 
     private function configureColumns(): void
     {
-        Column::configureUsing(function (Column $column): void {
-            $column->label(fn (Column $column) => $this->getAttributeTranslation(
+        Tables\Columns\Column::configureUsing(function (Tables\Columns\Column $column): void {
+            $column->label(fn (Tables\Columns\Column $column) => $this->getAttributeTranslation(
                 str(class_basename($column->getTable()->getModel()))->kebab()->plural(),
                 $column->getName()
             ));
         });
 
-        ToggleColumn::configureUsing(function (ToggleColumn $column): void {
+        Tables\Columns\ToggleColumn::configureUsing(function (Tables\Columns\ToggleColumn $column): void {
             if (Str::contains($column->getName(), 'status')) {
                 $column
                     ->afterStateUpdated(function () {
@@ -65,7 +61,7 @@ class FilamentServiceProvider extends ServiceProvider
             }
         });
 
-        TextInputColumn::configureUsing(function (TextInputColumn $column): void {
+        Tables\Columns\TextInputColumn::configureUsing(function (Tables\Columns\TextInputColumn $column): void {
             if (Str::contains($column->getName(), 'position')) {
                 $column
                     ->afterStateUpdated(function () {
@@ -78,7 +74,7 @@ class FilamentServiceProvider extends ServiceProvider
             }
         });
 
-        TextColumn::configureUsing(function (TextColumn $column): void {
+        Tables\Columns\TextColumn::configureUsing(function (Tables\Columns\TextColumn $column): void {
             if (Str::match('@^translations?\.(\w+)$@', $column->getName())) {
                 $column
                     ->searchable(query: function (Builder $query, string $search) use ($column): Builder {
@@ -106,13 +102,13 @@ class FilamentServiceProvider extends ServiceProvider
 
     private function configureInputs(): void
     {
-        Placeholder::configureUsing(function (Placeholder $placeholder): void {
+        Forms\Components\Placeholder::configureUsing(function (Forms\Components\Placeholder $placeholder): void {
             $placeholder->label(fn () => $this->getAttributeTranslation(
                 str(class_basename($placeholder->getModelInstance()))->kebab()->plural(),
                 $placeholder->getName(),
             ));
         });
-        Field::configureUsing(function (Field $field): void {
+        Forms\Components\Field::configureUsing(function (Forms\Components\Field $field): void {
             $field->label(fn () => $this->getAttributeTranslation(
                 str(class_basename($field->getModelInstance()))->kebab()->plural(),
                 $field->getName(),

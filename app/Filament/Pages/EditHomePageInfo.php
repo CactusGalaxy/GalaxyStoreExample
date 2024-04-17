@@ -5,12 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\HomePageInfo;
 use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
 use CactusGalaxy\FilamentAstrotomic\TranslatableTab;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms;
 use Filament\Forms\Form;
 
 class EditHomePageInfo extends EditPage
@@ -24,8 +19,8 @@ class EditHomePageInfo extends EditPage
     {
         return $form
             ->schema([
-                Section::make('Головний баннер')->columns()->schema([
-                    FileUpload::make('hero_section.image.path')
+                Forms\Components\Section::make('Головний баннер')->columns()->schema([
+                    Forms\Components\FileUpload::make('hero_section.image.path')
                         ->required()
                         ->columnSpan(1)
                         ->hiddenLabel()
@@ -39,39 +34,39 @@ class EditHomePageInfo extends EditPage
                     TranslatableTabs::make('Heading')
                         ->columnSpan(1)
                         ->localeTabSchema(fn (TranslatableTab $tab) => [
-                            Grid::make()->schema([
-                                TextInput::make("hero_section.textLeft.translations.{$tab->getLocale()}")
+                            Forms\Components\Grid::make()->schema([
+                                Forms\Components\TextInput::make("hero_section.textLeft.translations.{$tab->getLocale()}")
                                     ->maxLength(255)
                                     ->hiddenLabel()
                                     ->required(),
-                                TextInput::make("hero_section.textRight.translations.{$tab->getLocale()}")
+                                Forms\Components\TextInput::make("hero_section.textRight.translations.{$tab->getLocale()}")
                                     ->maxLength(255)
                                     ->hiddenLabel()
                                     ->required(),
                             ]),
-                            TextInput::make("hero_section.quote.translations.{$tab->getLocale()}")
+                            Forms\Components\TextInput::make("hero_section.quote.translations.{$tab->getLocale()}")
                                 ->maxLength(255)
                                 ->hiddenLabel()
                                 ->required(),
                         ]),
                 ])->collapsed(),
 
-                Section::make('Промо інформація')->schema([
-                    Grid::make(4)->schema([
+                Forms\Components\Section::make('Промо інформація')->schema([
+                    Forms\Components\Grid::make(4)->schema([
                         TranslatableTabs::make('Heading')
                             ->localeTabSchema(fn (TranslatableTab $tab) => [
-                                TextInput::make("promo_section.title.translations.{$tab->getLocale()}")
+                                Forms\Components\TextInput::make("promo_section.title.translations.{$tab->getLocale()}")
                                     ->maxLength(255)
                                     ->hiddenLabel()
                                     ->required(),
-                                RichEditor::make("promo_section.description.translations.{$tab->getLocale()}")
+                                Forms\Components\RichEditor::make("promo_section.description.translations.{$tab->getLocale()}")
                                     ->maxLength(255)
                                     ->hiddenLabel()
                                     ->required(),
                             ])
                             ->columnSpan(3),
 
-                        FileUpload::make('promo_section.mainImage.path')
+                        Forms\Components\FileUpload::make('promo_section.mainImage.path')
                             ->required()
                             ->columnSpan(1)
                             ->hiddenLabel()
@@ -82,14 +77,14 @@ class EditHomePageInfo extends EditPage
                             ->openable()
                             ->imagePreviewHeight('300'),
                     ]),
-                    Section::make('Слайдер')->schema([
-                        Repeater::make('promo_section.slider')
+                    Forms\Components\Section::make('Слайдер')->schema([
+                        Forms\Components\Repeater::make('promo_section.slider')
                             ->hiddenLabel()
                             ->reorderable()
                             ->reorderableWithDragAndDrop()
                             ->grid(3)
                             ->schema([
-                                FileUpload::make('path')
+                                Forms\Components\FileUpload::make('path')
                                     ->required()
                                     ->image()
                                     ->imageEditor()

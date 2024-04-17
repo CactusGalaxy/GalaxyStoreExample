@@ -8,10 +8,7 @@ use App\Settings\SiteSettings;
 use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
 use CactusGalaxy\FilamentAstrotomic\TranslatableTab;
 use Filament\Actions\Action;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -123,8 +120,8 @@ class ManageSettings extends Page
     {
         return $form
             ->schema([
-                Section::make('Налаштування сайту')->columns(3)->schema([
-                    FileUpload::make('logo')
+                Forms\Components\Section::make('Налаштування сайту')->columns(3)->schema([
+                    Forms\Components\FileUpload::make('logo')
                         ->required()
                         ->columnSpan(1)
                         ->label('Лого')
@@ -138,11 +135,11 @@ class ManageSettings extends Page
                     TranslatableTabs::make('Heading')
                         ->columnSpan(2)
                         ->localeTabSchema(fn (TranslatableTab $tab) => [
-                            TextInput::make("name.translations.{$tab->getLocale()}")
+                            Forms\Components\TextInput::make("name.translations.{$tab->getLocale()}")
                                 ->maxLength(255)
                                 ->hiddenLabel()
                                 ->required(),
-                            Textarea::make("description.translations.{$tab->getLocale()}")
+                            Forms\Components\Textarea::make("description.translations.{$tab->getLocale()}")
                                 ->maxLength(255)
                                 ->hiddenLabel()
                                 ->required(),
@@ -156,10 +153,10 @@ class ManageSettings extends Page
     {
         return $form
             ->schema([
-                Section::make('Налаштування футеру')->schema([
+                Forms\Components\Section::make('Налаштування футеру')->schema([
                     TranslatableTabs::make('Heading')
                         ->localeTabSchema(fn (TranslatableTab $tab) => [
-                            Textarea::make("description.translations.{$tab->getLocale()}")
+                            Forms\Components\Textarea::make("description.translations.{$tab->getLocale()}")
                                 ->maxLength(255)
                                 ->hiddenLabel()
                                 ->required(),

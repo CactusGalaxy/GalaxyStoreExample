@@ -11,27 +11,15 @@ use App\Models\ProductAttribute;
 use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
 use CactusGalaxy\FilamentAstrotomic\Resources\Concerns\ResourceTranslatable;
 use CactusGalaxy\FilamentAstrotomic\TranslatableTab;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
+use Filament\Forms;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -62,10 +50,10 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Grid::make(3)->schema([
-                Grid::make(1)
+            Forms\Components\Grid::make(3)->schema([
+                Forms\Components\Grid::make(1)
                     ->schema([
-                        TextInput::make('slug')
+                        Forms\Components\TextInput::make('slug')
                             ->unique(ignoreRecord: true)
                             ->required()
                             ->readOnly()
@@ -74,34 +62,34 @@ class ProductResource extends Resource
 
                         TranslatableTabs::make('Heading')
                             ->localeTabSchema(fn (TranslatableTab $tab) => [
-                                TextInput::make($tab->makeName('title'))
+                                Forms\Components\TextInput::make($tab->makeName('title'))
                                     ->required()
                                     ->live(onBlur: true)
                                     ->maxLength(255)
-                                    ->afterStateUpdated(function (Set $set, Get $get, $state) use ($tab) {
+                                    ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, $state) use ($tab) {
                                         if ($tab->isMainLocale()) {
                                             $set('slug', Str::slug($state));
                                         }
                                     }),
 
-                                RichEditor::make($tab->makeName('description')),
+                                Forms\Components\RichEditor::make($tab->makeName('description')),
 
-                                Section::make(__('admin_labels.attributes.meta_fields'))
+                                Forms\Components\Section::make(__('admin_labels.attributes.meta_fields'))
                                     ->hidden()
                                     ->schema([
-                                        TextInput::make($tab->makeName('meta_title'))
+                                        Forms\Components\TextInput::make($tab->makeName('meta_title'))
                                             ->maxLength(255),
-                                        TextInput::make($tab->makeName('meta_keywords'))
+                                        Forms\Components\TextInput::make($tab->makeName('meta_keywords'))
                                             ->maxLength(255),
-                                        RichEditor::make($tab->makeName('meta_description')),
+                                        Forms\Components\RichEditor::make($tab->makeName('meta_description')),
                                     ]),
                             ]),
                     ])
                     ->columnSpan(['lg' => 2]),
 
-                Grid::make(1)->schema([
-                    Section::make(__('admin_labels.tabs.general'))->schema([
-                        Select::make('category_id')
+                Forms\Components\Grid::make(1)->schema([
+                    Forms\Components\Section::make(__('admin_labels.tabs.general'))->schema([
+                        Forms\Components\Select::make('category_id')
                             ->relationship('category')
                             ->searchable()
                             ->options(
@@ -112,34 +100,34 @@ class ProductResource extends Resource
                             )
                             ->required(),
 
-                        Toggle::make('status')
+                        Forms\Components\Toggle::make('status')
                             ->default(true),
                     ]),
 
-                    Section::make()->schema([
-                        Placeholder::make('created_at')
+                    Forms\Components\Section::make()->schema([
+                        Forms\Components\Placeholder::make('created_at')
                             ->content(fn (?Model $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
-                        Placeholder::make('updated_at')
+                        Forms\Components\Placeholder::make('updated_at')
                             ->content(fn (?Model $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                     ]),
                 ])->columnSpan(['lg' => 1]),
 
-                Section::make('product_card')
+                Forms\Components\Section::make('product_card')
                     ->heading('Катка товару')
                     ->schema([
-                        Grid::make()->schema([
-                            TextInput::make('sku')
+                        Forms\Components\Grid::make()->schema([
+                            Forms\Components\TextInput::make('sku')
                                 ->numeric()
                                 ->required(),
 
-                            TextInput::make('quantity')
+                            Forms\Components\TextInput::make('quantity')
                                 ->required()
                                 ->integer(),
                         ]),
 
-                        Grid::make()->schema([
-                            TextInput::make('price')
+                        Forms\Components\Grid::make()->schema([
+                            Forms\Components\TextInput::make('price')
                                 ->required()
                                 ->minValue(0)
                                 ->integer(),
@@ -147,7 +135,7 @@ class ProductResource extends Resource
 
                         TranslatableTabs::make('Heading')
                             ->localeTabSchema(fn (TranslatableTab $tab) => [
-                                KeyValue::make($tab->makeName('characteristics'))
+                                Forms\Components\KeyValue::make($tab->makeName('characteristics'))
                                     ->label('Характеристики')
                                     ->addActionLabel('Додати')
                                     ->keyLabel('Параметр')
@@ -156,20 +144,20 @@ class ProductResource extends Resource
                             ]),
                     ]),
 
-                Tabs::make('heading')
+                Forms\Components\Tabs::make('heading')
                     ->columnSpanFull()
                     ->tabs([
                         Tabs\Tab::make('slider')
                             ->label('Слайдер')
                             ->schema([
-                                Repeater::make('sliders')
+                                Forms\Components\Repeater::make('sliders')
                                     ->hiddenLabel()
                                     ->required()
                                     ->minItems(2)
                                     ->defaultItems(2)
                                     ->reorderableWithButtons()
                                     ->schema([
-                                        FileUpload::make('image')
+                                        Forms\Components\FileUpload::make('image')
                                             ->hiddenLabel()
                                             ->required()
                                             ->downloadable()
@@ -181,12 +169,12 @@ class ProductResource extends Resource
                         Tabs\Tab::make('attributes')
                             ->label('Атрибути')
                             ->schema([
-                                Repeater::make('productAttributeValues')
+                                Forms\Components\Repeater::make('productAttributeValues')
                                     ->label('Атрибути')
                                     ->hiddenLabel()
                                     ->relationship()
                                     ->schema([
-                                        Select::make('product_attribute_id')
+                                        Forms\Components\Select::make('product_attribute_id')
                                             ->hiddenLabel()
                                             ->relationship('productAttribute')
                                             ->searchable()
@@ -201,13 +189,13 @@ class ProductResource extends Resource
                                             ->live(onBlur: true)
                                             ->required(),
 
-                                        Select::make('attribute_value_id')
+                                        Forms\Components\Select::make('attribute_value_id')
                                             ->hiddenLabel()
                                             ->relationship('attributeValue')
-                                            ->visible(fn (Get $get) => $get('product_attribute_id'))
+                                            ->visible(fn (Forms\Get $get) => $get('product_attribute_id'))
                                             ->searchable()
                                             ->allowHtml()
-                                            ->options(function (Get $get) {
+                                            ->options(function (Forms\Get $get) {
                                                 $productAttributes = ProductAttribute::find(
                                                     $get('product_attribute_id')
                                                 );
@@ -243,18 +231,18 @@ class ProductResource extends Resource
         return $table
             ->defaultSort('id', 'desc')
             ->columns([
-                TextColumn::make('id')
+                Tables\Columns\TextColumn::make('id')
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('category.translation.title')
+                Tables\Columns\TextColumn::make('category.translation.title')
                     ->label(__('filament/resources/products.attributes.category_id')),
 
-                TextColumn::make('translation.title'),
+                Tables\Columns\TextColumn::make('translation.title'),
 
-                TextColumn::make('price'),
+                Tables\Columns\TextColumn::make('price'),
 
-                ToggleColumn::make('status'),
+                Tables\Columns\ToggleColumn::make('status'),
             ])->actions([
                 EditAction::make(),
                 DeleteAction::make(),
