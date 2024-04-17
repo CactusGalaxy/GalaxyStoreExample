@@ -2,7 +2,7 @@
 
 namespace App\Settings;
 
-use App\Data\Localised;
+use App\Data\Localized;
 use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelSettings\Settings;
 
@@ -10,9 +10,9 @@ class SiteSettings extends Settings
 {
     public ?string $logo;
 
-    public Localised $name;
+    public Localized $name;
 
-    public Localised $description;
+    public Localized $description;
 
     public static function group(): string
     {

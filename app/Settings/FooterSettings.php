@@ -2,12 +2,12 @@
 
 namespace App\Settings;
 
-use App\Data\Localised;
+use App\Data\Localized;
 use Spatie\LaravelSettings\Settings;
 
 class FooterSettings extends Settings
 {
-    public Localised $description;
+    public Localized $description;
 
     public static function group(): string
     {

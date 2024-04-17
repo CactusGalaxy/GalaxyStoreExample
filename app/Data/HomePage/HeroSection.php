@@ -3,16 +3,16 @@
 namespace App\Data\HomePage;
 
 use App\Data\Image;
-use App\Data\Localised;
+use App\Data\Localized;
 use Spatie\LaravelData\Data;
 
 class HeroSection extends Data
 {
     public function __construct(
         public Image $image,
-        public Localised $textLeft,
-        public Localised $textRight,
-        public Localised $quote,
+        public Localized $textLeft,
+        public Localized $textRight,
+        public Localized $quote,
     ) {
     }
 }

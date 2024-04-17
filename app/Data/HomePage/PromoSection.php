@@ -3,7 +3,7 @@
 namespace App\Data\HomePage;
 
 use App\Data\Image;
-use App\Data\Localised;
+use App\Data\Localized;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
 
@@ -14,8 +14,8 @@ class PromoSection extends Data
      */
     public function __construct(
         public Image $mainImage,
-        public Localised $title,
-        public Localised $description,
+        public Localized $title,
+        public Localized $description,
         public Collection $slider,
     ) {
     }

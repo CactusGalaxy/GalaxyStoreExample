@@ -5,7 +5,7 @@ namespace App\Data;
 use Spatie\LaravelData\Data;
 use Stringable;
 
-class Localised extends Data implements Stringable
+class Localized extends Data implements Stringable
 {
     public function __construct(
         public array $translations = [],

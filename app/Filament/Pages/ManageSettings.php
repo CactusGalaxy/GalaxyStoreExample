@@ -2,7 +2,7 @@
 
 namespace App\Filament\Pages;
 
-use App\Data\Localised;
+use App\Data\Localized;
 use App\Settings\FooterSettings;
 use App\Settings\SiteSettings;
 use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
@@ -70,11 +70,11 @@ class ManageSettings extends Page
             $this->beginDatabaseTransaction();
 
             $siteData = $this->siteForm->getState();
-            $siteData['name'] = new Localised(...$siteData['name']);
-            $siteData['description'] = new Localised(...$siteData['description']);
+            $siteData['name'] = new Localized(...$siteData['name']);
+            $siteData['description'] = new Localized(...$siteData['description']);
 
             $footerData = $this->footerForm->getState();
-            $footerData['description'] = new Localised(...$footerData['description']);
+            $footerData['description'] = new Localized(...$footerData['description']);
 
             $settingsList = [
                 SiteSettings::class => $siteData,

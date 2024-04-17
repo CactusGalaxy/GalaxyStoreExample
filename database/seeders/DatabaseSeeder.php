@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Data\HomePage\HeroSection;
 use App\Data\HomePage\PromoSection;
 use App\Data\Image;
-use App\Data\Localised;
+use App\Data\Localized;
 use App\Models\HomePageInfo;
 use App\Models\User;
 use File;
@@ -46,26 +46,26 @@ class DatabaseSeeder extends Seeder
         HomePageInfo::create([
             'hero_section' => new HeroSection(
                 image: new Image(path: $this->getImage()),
-                textLeft: new Localised(translations: [
+                textLeft: new Localized(translations: [
                     'uk' => fake('uk')->words(asText: true),
                     'en' => fake()->words(asText: true),
                 ]),
-                textRight: new Localised(translations: [
+                textRight: new Localized(translations: [
                     'uk' => fake('uk')->words(asText: true),
                     'en' => fake()->words(asText: true),
                 ]),
-                quote: new Localised(translations: [
+                quote: new Localized(translations: [
                     'uk' => fake('uk')->paragraph,
                     'en' => fake()->paragraph,
                 ]),
             ),
             'promo_section' => new PromoSection(
                 mainImage: new Image(path: $this->getImage()),
-                title: new Localised(translations: [
+                title: new Localized(translations: [
                     'uk' => fake('uk')->words(asText: true),
                     'en' => fake()->words(asText: true),
                 ]),
-                description: new Localised(translations: [
+                description: new Localized(translations: [
                     'uk' => fake('uk')->paragraph,
                     'en' => fake()->paragraph,
                 ]),
