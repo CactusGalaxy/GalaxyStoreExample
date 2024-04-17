@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Concerns\ConfigureResourceLabel;
 use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Traits\ResourceHelper;
 use App\Models\Category;
 use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
 use CactusGalaxy\FilamentAstrotomic\Resources\Concerns\ResourceTranslatable;
@@ -34,7 +34,7 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 class CategoryResource extends Resource
 {
     use ResourceTranslatable;
-    use ResourceHelper;
+    use ConfigureResourceLabel;
 
     protected static ?string $model = Category::class;
 

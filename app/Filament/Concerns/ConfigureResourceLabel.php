@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Traits;
+namespace App\Filament\Concerns;
 
-trait ResourceHelper
+trait ConfigureResourceLabel
 {
     public static function getModelLabel(): string
     {

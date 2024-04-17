@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Concerns\ConfigureResourceLabel;
 use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Traits\ResourceHelper;
 use App\Models\AttributeValue;
 use App\Models\Category;
 use App\Models\Product;
@@ -40,7 +40,7 @@ use Illuminate\Support\Str;
 class ProductResource extends Resource
 {
     use ResourceTranslatable;
-    use ResourceHelper;
+    use ConfigureResourceLabel;
 
     protected static ?string $model = Product::class;
 

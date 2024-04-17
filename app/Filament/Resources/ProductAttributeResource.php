@@ -3,8 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Enums\ProductAttribute\DisplayType;
+use App\Filament\Concerns\ConfigureResourceLabel;
 use App\Filament\Resources\ProductAttributeResource\Pages;
-use App\Filament\Traits\ResourceHelper;
 use App\Models\ProductAttribute;
 use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
 use CactusGalaxy\FilamentAstrotomic\Resources\Concerns\ResourceTranslatable;
@@ -32,7 +32,7 @@ use Illuminate\Support\Str;
 class ProductAttributeResource extends Resource
 {
     use ResourceTranslatable;
-    use ResourceHelper;
+    use ConfigureResourceLabel;
 
     protected static ?string $model = ProductAttribute::class;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Concerns\ConfigureResourceLabel;
 use App\Filament\Resources\BannerResource\Pages;
-use App\Filament\Traits\ResourceHelper;
 use App\Models\Banner;
 use CactusGalaxy\FilamentAstrotomic\Forms\Components\TranslatableTabs;
 use CactusGalaxy\FilamentAstrotomic\Resources\Concerns\ResourceTranslatable;
@@ -32,7 +32,7 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 class BannerResource extends Resource
 {
     use ResourceTranslatable;
-    use ResourceHelper;
+    use ConfigureResourceLabel;
 
     protected static ?string $model = Banner::class;
 
