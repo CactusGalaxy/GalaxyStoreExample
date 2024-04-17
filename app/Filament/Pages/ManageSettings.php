@@ -120,7 +120,7 @@ class ManageSettings extends Page
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Налаштування сайту')->columns(3)->schema([
+                Forms\Components\Section::make(__('filament/pages/settings.site_settings'))->columns(3)->schema([
                     Forms\Components\FileUpload::make('logo')
                         ->required()
                         ->columnSpan(1)
@@ -153,7 +153,7 @@ class ManageSettings extends Page
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Налаштування футеру')->schema([
+                Forms\Components\Section::make(__('filament/pages/settings.footer_settings'))->schema([
                     TranslatableTabs::make('Heading')
                         ->localeTabSchema(fn (TranslatableTab $tab) => [
                             Forms\Components\Textarea::make("description.translations.{$tab->getLocale()}")

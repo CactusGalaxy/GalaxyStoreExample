@@ -101,7 +101,7 @@ class ProductAttributeResource extends Resource
                 ->schema([
                     Forms\Components\Repeater::make('attributeValues')
                         ->hiddenLabel()
-                        ->addActionLabel('Додати новий атрибут')
+                        ->addActionLabel(__('create'))
                         ->relationship()
                         ->collapsed()
                         ->collapsible()

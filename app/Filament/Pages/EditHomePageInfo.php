@@ -19,7 +19,7 @@ class EditHomePageInfo extends EditPage
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Головний баннер')->columns()->schema([
+                Forms\Components\Section::make(__('filament/pages/edit-home-page-info.sections.main_banner'))->columns()->schema([
                     Forms\Components\FileUpload::make('hero_section.image.path')
                         ->required()
                         ->columnSpan(1)
@@ -51,7 +51,7 @@ class EditHomePageInfo extends EditPage
                         ]),
                 ])->collapsed(),
 
-                Forms\Components\Section::make('Промо інформація')->schema([
+                Forms\Components\Section::make(__('filament/pages/edit-home-page-info.sections.promo_info'))->schema([
                     Forms\Components\Grid::make(4)->schema([
                         TranslatableTabs::make('Heading')
                             ->localeTabSchema(fn (TranslatableTab $tab) => [
@@ -77,7 +77,7 @@ class EditHomePageInfo extends EditPage
                             ->openable()
                             ->imagePreviewHeight('300'),
                     ]),
-                    Forms\Components\Section::make('Слайдер')->schema([
+                    Forms\Components\Section::make(__('filament/pages/edit-home-page-info.sections.slider'))->schema([
                         Forms\Components\Repeater::make('promo_section.slider')
                             ->hiddenLabel()
                             ->reorderable()

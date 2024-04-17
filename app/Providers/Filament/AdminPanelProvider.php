@@ -38,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Amber,
             ])
             ->navigationItems([
-                NavigationItem::make('Відкрити сайт')
+                NavigationItem::make(__('filament/navigation.items.open_site'))
                     ->icon('bi-globe')
                     ->url(fn () => route('web.home'), shouldOpenInNewTab: true),
             ])
