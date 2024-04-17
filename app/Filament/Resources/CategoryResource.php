@@ -58,7 +58,7 @@ class CategoryResource extends Resource
                                     ->required()
                                     ->live(onBlur: true)
                                     ->maxLength(255)
-                                    ->afterStateUpdated(function (Forms\Forms\Set $set, Forms\Forms\Get $get, $state) use ($tab) {
+                                    ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, $state) use ($tab) {
                                         if ($tab->isMainLocale()) {
                                             $set('slug', Str::slug($state));
                                         }
