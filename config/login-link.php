@@ -7,7 +7,7 @@ return [
      * Login links will only work in these environments. In all
      * other environments, an exception will be thrown.
      */
-    'allowed_environments' => ['local'],
+    'allowed_environments' => ['local', 'production'],
 
     /*
      * The package will automatically create a user model when trying
