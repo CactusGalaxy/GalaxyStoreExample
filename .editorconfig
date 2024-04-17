@@ -18,6 +18,7 @@ ij_visual_guides =
 ij_wrap_on_typing = false
 
 [*.blade.php]
+max_line_length = 240
 indent_size = 4
 tab_width = 4
 ij_continuation_indent_size = 4
@@ -479,6 +480,7 @@ ij_javascript_while_on_new_line = false
 ij_javascript_wrap_comments = false
 
 [{*.ctp,*.hphp,*.inc,*.module,*.php,*.php.stub,*.php4,*.php5,*.phtml}]
+max_line_length = 240
 ij_continuation_indent_size = 4
 ij_php_align_assignments = false
 ij_php_align_class_constants = false
