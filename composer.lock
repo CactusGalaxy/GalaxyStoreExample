@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4de4d465593e13eb62f13db7456649ec",
+    "content-hash": "e1f813b9b386ac5dbe3231935327ee3a",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1231,32 +1231,26 @@
         },
         {
             "name": "cactus-galaxy/filament-astrotomic",
-            "version": "v0.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/CactusGalaxy/FilamentAstrotomic.git",
-                "reference": "976b2b88dcf68213840d0ea6257ac3a07bdb3fbf"
-            },
+            "version": "dev-fix/fetching-locales-from-resource",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/CactusGalaxy/FilamentAstrotomic/zipball/976b2b88dcf68213840d0ea6257ac3a07bdb3fbf",
-                "reference": "976b2b88dcf68213840d0ea6257ac3a07bdb3fbf",
-                "shasum": ""
+                "type": "path",
+                "url": "../packages/CactusGalaxy.FilamentAstrotomic",
+                "reference": "29e06b2e2815b0dea515fe80ec29512b908a997c"
             },
             "require": {
                 "astrotomic/laravel-translatable": "^11.12",
                 "filament/filament": "^3.0",
-                "laravel/framework": "^10.0 || ^11.0",
+                "laravel/framework": "^10.0 || ^11.0 || ^12.0",
                 "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.15.0"
             },
             "require-dev": {
                 "laravel/pint": "^1.0",
-                "nunomaduro/collision": "^7.9",
-                "orchestra/testbench": "^8.0 || ^9.0",
-                "pestphp/pest": "^2.0",
-                "pestphp/pest-plugin-arch": "^2.0",
-                "pestphp/pest-plugin-laravel": "^2.0"
+                "nunomaduro/collision": "^7.9 || ^8.0",
+                "orchestra/testbench": "~8.30",
+                "pestphp/pest": "^2.0 || ^3.0",
+                "pestphp/pest-plugin-arch": "^2.0 || ^3.0",
+                "pestphp/pest-plugin-laravel": "^2.0 || ^3.0"
             },
             "type": "library",
             "extra": {
@@ -1274,7 +1268,28 @@
                     "CactusGalaxy\\FilamentAstrotomic\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "CactusGalaxy\\FilamentAstrotomic\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@php ./vendor/bin/testbench package:discover --ansi"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ],
+                "lint": [
+                    "@format"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -1302,13 +1317,10 @@
                 "issues": "https://github.com/CactusGalaxy/FilamentAstrotomic/issues",
                 "source": "https://github.com/CactusGalaxy/FilamentAstrotomic"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/CactusGalaxy",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-04-17T12:22:15+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -14114,6 +14126,6 @@
     "platform": {
         "php": "^8.1"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
