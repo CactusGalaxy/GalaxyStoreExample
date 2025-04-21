@@ -297,4 +297,9 @@ class ProductResource extends Resource
 
         return $details;
     }
+
+    public static function getTranslatableLocales(): array
+    {
+        return ['en'];
+    }
 }
