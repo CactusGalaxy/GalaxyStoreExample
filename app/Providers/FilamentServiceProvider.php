@@ -85,17 +85,16 @@ class FilamentServiceProvider extends ServiceProvider
                         }
 
                         return $query->where($columnName, 'like', "%{$search}%");
+                    })
+                    ->sortable(query: function (Builder $query, string $direction) use ($column): Builder {
+                        $columnName = Str::after($column->getName(), '.');
+                        if ($query->hasNamedScope('orderByTranslation')) {
+                            /* @var WithTranslationsTrait|Translatable $query */
+                            return $query->orderByTranslation($columnName, $direction);
+                        }
+
+                        return $query->orderBy($columnName, $direction);
                     });
-                // todo - fix id is ambiguous
-                // ->sortable(query: function (Builder $query, string $direction) use ($column): Builder {
-                //     $columnName = Str::after($column->getName(), '.');
-                //     if ($query->hasNamedScope('orderByTranslation')) {
-                //         /* @var WithTranslationsTrait|Translatable $query */
-                //         return $query->orderByTranslation($columnName, $direction);
-                //     }
-                //
-                //     return $query->orderBy($columnName, $direction);
-                // })
             }
         });
     }
